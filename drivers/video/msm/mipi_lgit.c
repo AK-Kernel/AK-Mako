@@ -21,6 +21,9 @@
 #include <linux/string.h>
 #include <linux/gpio.h>
 #include <linux/syscore_ops.h>
+#ifdef CONFIG_FB_MSM_LCD_NOTIFY
+#include <linux/lcd_notify.h>
+#endif
 
 #include "msm_fb.h"
 #include "mipi_dsi.h"
@@ -77,6 +80,9 @@ static int mipi_lgit_lcd_on(struct platform_device *pdev)
 	struct msm_fb_data_type *mfd;
 	int ret = 0;
 
+#ifdef CONFIG_FB_MSM_LCD_NOTIFY
+	lcd_notifier_call_chain(LCD_EVENT_ON_START, NULL);
+#endif
 	pr_info("%s started\n", __func__);
 
 	mfd = platform_get_drvdata(pdev);
@@ -126,6 +132,9 @@ static int mipi_lgit_lcd_on(struct platform_device *pdev)
 		return ret;
 	}
 
+#ifdef CONFIG_FB_MSM_LCD_NOTIFY
+	lcd_notifier_call_chain(LCD_EVENT_ON_END, NULL);
+#endif
 	pr_info("%s finished\n", __func__);
 	return 0;
 }
@@ -135,6 +144,9 @@ static int mipi_lgit_lcd_off(struct platform_device *pdev)
 	struct msm_fb_data_type *mfd;
 	int ret = 0;
 
+#ifdef CONFIG_FB_MSM_LCD_NOTIFY
+	lcd_notifier_call_chain(LCD_EVENT_OFF_START, NULL);
+#endif
 	pr_info("%s started\n", __func__);
 
 	if (mipi_lgit_pdata->bl_pwm_disable)
@@ -176,6 +188,9 @@ static int mipi_lgit_lcd_off(struct platform_device *pdev)
 		return ret;
 	}
 
+#ifdef CONFIG_FB_MSM_LCD_NOTIFY
+	lcd_notifier_call_chain(LCD_EVENT_OFF_END, NULL);
+#endif
 	pr_info("%s finished\n", __func__);
 	return 0;
 }
