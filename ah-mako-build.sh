@@ -15,7 +15,7 @@ DEFCONFIG="ah_mako_defconfig"
 
 # Kernel Details
 BASE_AH_VER="AH"
-VER=".000.MAKO.AOSP"
+VER=".000.MAKO.CM"
 AH_VER="$BASE_AH_VER$VER"
 
 # Vars
